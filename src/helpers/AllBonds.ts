@@ -32,6 +32,20 @@ import { getBondCalculator } from "src/helpers/BondCalculator";
 import { BigNumberish } from "ethers";
 import { getTokenPrice } from "src/helpers";
 
+/*
+ohm:  0x9439CcbF47CEA12B5CF8d42944A4894F9aA29ab9
+dai:  0xE92301dE4c95ee16A2250b84Efb2Ab5439067dC1
+frax:  0x4759C897F66669c7cAFF3B8B64Fa8e5CC13fBeE7
+treasury:  0xf1EA07ed9755c7323F1Fa27F79AC48343671044a
+olympusBondingCalculator:  0xd669c7E816Dc3b9D86b9d5F54004fB74d76cFcB5
+distributor:  0x203d4caeDe6D3034c43AB0183AC3d8791c650c67
+sOHM:  0x5E491BA49Cf960f567B81d4bBE1733Db21bef51b
+staking:  0x50D8Ff21DE4F249298eAFbd6b68768CE521B75eE
+stakingWarmup:  0xd7BE5b361D8af1cB1E404aCFd0F90C1035590b13
+stakingHelper:  0xdBB7d4867d50d275665a3bae3D62128Db654A9bE
+daiBond:  0xb507fb355DaA037d4ee8d6c0eF3342360B4d6e0E
+fraxBond:  0x7D021b450004d11D952f0dE626c6338A01AcC34C
+*/
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
 export const dai = new StableBond({
@@ -47,8 +61,8 @@ export const dai = new StableBond({
       reserveAddress: "0x6b175474e89094c44da98b954eedeac495271d0f",
     },
     [NetworkID.Testnet]: {
-      bondAddress: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
-      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
+      bondAddress: "0xb507fb355daa037d4ee8d6c0ef3342360b4d6e0e",
+      reserveAddress: "0xe92301de4c95ee16a2250b84efb2ab5439067dc1",
     },
   },
 });
@@ -66,8 +80,8 @@ export const frax = new StableBond({
       reserveAddress: "0x853d955acef822db058eb8505911ed77f175b99e",
     },
     [NetworkID.Testnet]: {
-      bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
-      reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
+      bondAddress: "0x7D021b450004d11D952f0dE626c6338A01AcC34C",
+      reserveAddress: "0x4759C897F66669c7cAFF3B8B64Fa8e5CC13fBeE7",
     },
   },
 });
@@ -305,9 +319,9 @@ export const ohm_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
+export const allBonds = [dai, frax]; // eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-export const allExpiredBonds = [cvx_expired];
+export const allExpiredBonds: CustomBond[] = [];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
