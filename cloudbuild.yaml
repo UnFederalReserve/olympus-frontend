@@ -47,8 +47,6 @@ steps:
       . ./.cloudbuild.env.sh
       cp .env.example .env
       ls -la .
-      . .env
-      ls -la .
       SHORT_SHA=$SHORT_SHA BRANCH_NAME=$BRANCH_NAME yarn build --mode $BRANCH_NAME
 
 # build docker image
