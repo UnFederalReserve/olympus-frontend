@@ -45,6 +45,9 @@ steps:
     - |
       set -e
       . ./.cloudbuild.env.sh
+      cp .env.example .env
+      . .env
+      ls -la .
       SHORT_SHA=$SHORT_SHA BRANCH_NAME=$BRANCH_NAME yarn build --mode $BRANCH_NAME
 
 # build docker image
@@ -64,6 +67,7 @@ steps:
         exit;
       fi
 
+      cp .env.example build/
       cd build
 
       gsutil -m -h "Cache-Control:public,max-age=1209600" cp -z html,js,css,svg -R * gs://$_PROJECT_NAME-$$CLUSTER_NAME-$_SERVICE_NAME
