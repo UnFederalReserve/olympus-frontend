@@ -23,6 +23,8 @@ tests)
   ;;
 
 build)
+  set -e
+  source .env.example
   SHORT_SHA=$SHORT_SHA BRANCH_NAME=$BRANCH_NAME yarn build --mode $BRANCH_NAME
   ;;
 
