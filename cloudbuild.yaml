@@ -63,7 +63,7 @@ steps:
         exit;
       fi
 
-      cd dist
+      cd build
 
       gsutil -m -h "Cache-Control:public,max-age=1209600" cp -z html,js,css,svg -R * gs://$_PROJECT_NAME-$$CLUSTER_NAME-$_SERVICE_NAME
       gsutil setmeta -h "Cache-Control:private, max-age=0, no-transform" gs://$_PROJECT_NAME-$$CLUSTER_NAME-$_SERVICE_NAME/index.html
