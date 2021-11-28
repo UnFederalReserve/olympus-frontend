@@ -10,6 +10,7 @@ import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
+import { ReactComponent as ERSDLImg } from "src/assets/tokens/eRSDL.svg";
 
 import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
@@ -84,6 +85,37 @@ export const frax = new StableBond({
       reserveAddress: "0x4759C897F66669c7cAFF3B8B64Fa8e5CC13fBeE7",
     },
   },
+});
+
+export const ersdl = new StableBond({
+  name: "eRSDL",
+  displayName: "eRSDL",
+  // lpUrl: "",
+  // bondType: BondType.StableAsset,
+  bondToken: "eRSDL",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  bondIconSvg: ERSDLImg,
+  bondContractABI: DaiBondContract,
+  // reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0x00",
+      reserveAddress: "0x00",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0x9C9Df8058C4AF6859a5B69317cD0b0f3292d7CA3",
+      reserveAddress: "0xe2BBB422caaCFcACc2Daa3Aee26b3f49591Db764", // using DAI per `principal` address
+    },
+  },
+  /*
+  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+    let cvxPrice: number = await getTokenPrice("unfederalreserve");
+    const token = this.getContractForReserve(networkID, provider);
+    let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
+    return cvxAmount * cvxPrice;
+  },
+  */
 });
 
 export const lusd = new StableBond({
@@ -319,7 +351,7 @@ export const ohm_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax]; // eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
+export const allBonds = [dai, frax, ersdl]; // eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds: CustomBond[] = [];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
