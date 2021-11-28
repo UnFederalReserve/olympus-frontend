@@ -31,6 +31,7 @@ steps:
         echo 'export URL_ENV_PART=-dev' >> .cloudbuild.env.sh
         echo 'export DOMAIN=$_DEV_DOMAIN' >> .cloudbuild.env.sh
       fi
+      cp .env.example .env
 
       ./make.sh install
 
