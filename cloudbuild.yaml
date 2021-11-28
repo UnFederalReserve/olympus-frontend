@@ -8,7 +8,7 @@ options:
 steps:
 
 # init environment
-- name: 'gcr.io/$PROJECT_ID/yarn:27102021'
+- name: 'gcr.io/cloud-builders/yarn'
   id: init
   waitFor: ['-']
   entrypoint: 'sh'
@@ -34,7 +34,7 @@ steps:
 
       ./make.sh install
 
-- name: 'gcr.io/$PROJECT_ID/yarn:27102021'
+- name: 'gcr.io/cloud-builders/yarn'
   id: build
   waitFor:
     - init
@@ -46,38 +46,11 @@ steps:
       . ./.cloudbuild.env.sh
       SHORT_SHA=$SHORT_SHA BRANCH_NAME=$BRANCH_NAME yarn build --mode $BRANCH_NAME
 
-- name: 'gcr.io/$PROJECT_ID/yarn:27102021'
-  id: lint
-  waitFor:
-    - build
-  entrypoint: 'sh'
-  args:
-    - '-c'
-    - |
-      set -e
-      . ./.cloudbuild.env.sh
-      # yarn audit:check
-      yarn lint
-
-- name: 'gcr.io/$PROJECT_ID/yarn:27102021'
-  id: test
-  waitFor:
-    - build
-  entrypoint: 'sh'
-  args:
-    - '-c'
-    - |
-      set -e
-      . ./.cloudbuild.env.sh
-      yarn test:unit:ci --passWithNoTests
-
 # build docker image
 - name: 'gcr.io/cloud-builders/gsutil'
   id: deploy
   waitFor:
     - build
-    - lint
-    - test
   entrypoint: 'sh'
   args:
     - '-c'
